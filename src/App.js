@@ -6,7 +6,6 @@ import History from './History';
 import AppNavBar from './AppNavBar';
 import AppFooter from './AppFooter';
 
-
 const App = () => {
     return (
         <>
