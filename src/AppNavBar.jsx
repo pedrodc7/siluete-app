@@ -1,21 +1,14 @@
 import {AppBar, Toolbar, Typography, Button, Box} from '@mui/material'
-import { useAddress, useMetamask } from '@thirdweb-dev/react';
 
 
-const AppNavBar = () => {
+const AppNavBar = (props) => {
 
-
-    // use the hooks thirdweb give us
-    const address = useAddress();
-    const connectWithMetamask = useMetamask();
-    console.log("Address: ", address);
-
-    // no walled connect yet to the app, let the user connect one
-    if (!address) {
-        
+    var addressDisplay = '';
+    if (props.address) {
+        addressDisplay = props.address.substring(0,3) + '...' + props.address.substring(props.address.length - 3);
     }
 
-  return (
+    return (
     <Box sx={{flexGrow: 1}}>
         <AppBar position="static">
             <Toolbar>
@@ -23,13 +16,28 @@ const AppNavBar = () => {
                     siluete
                 </Typography>
                 {
-                    !address
+                    props.address ?
+                    !props.hasKey ?
+                    <Button color='inherit' onClick={props.getKey}>
+                        Get key
+                    </Button>
+                    :
+                    <Typography>
+                        🔐
+                    </Typography>
+                    :
+                    <></>
+                }
+                {
+                    !props.address
                     ? 
-                    <Button color='inherit' onClick={connectWithMetamask}>
+                    <Button color='inherit' onClick={props.connectWithWallet}>
                     Connect wallet
                     </Button>
                     :
-                    <Typography>Connected</Typography>
+                    <Button color='inherit' onClick={props.disconnect}>
+                        Connected: {addressDisplay}
+                    </Button>
                 }
             </Toolbar>
         </AppBar>
